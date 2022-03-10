@@ -17,12 +17,12 @@ jobs:
   release:
     name: Build and Push
     environment:
-      name: "${{ env.ENVIRONMENT_NAME }}"
+      name: ${{ github.event.inputs.environment || 'stage' }}
     runs-on: ubuntu-latest
     steps:
       - name: Print Deployment Target
         run: |
-          echo "Deployment Target: ${{ env.ENVIRONMENT_NAME }}"
+          echo "Deployment Target: ${{ jobs.env.name }}"
 
       - name: Success Notification
         id: slack
@@ -37,7 +37,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":rocket: Testing (`${{ env.ENVIRONMENT_NAME }}`)"
+                    "text": ":rocket: Testing (`${{ jobs.env.name }}`)"
                   },
                   "accessory": {
                     "type": "button",
@@ -46,7 +46,7 @@ jobs:
                       "text": "Go to App",
                       "emoji": true
                     },
-                    "url": "${{ env.ENVIRONMENT_NAME == 'prod' && 'https://www.google.com' || 'https://www.bing.com' }}"
+                    "url": "${{ jobs.env.name == 'prod' && 'https://www.google.com' || 'https://www.bing.com' }}"
                   }
                 }
               ]
