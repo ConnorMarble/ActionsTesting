@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Print Deployment Target
         run: |
-          echo "Deployment Target: ${{ jobs.env.name }}"
+          echo "Deployment Target: ${{ jobs.release.env.name }}"
 
       - name: Success Notification
         id: slack
@@ -37,7 +37,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":rocket: Testing (`${{ jobs.env.name }}`)"
+                    "text": ":rocket: Testing (`${{ jobs.release.env.name }}`)"
                   },
                   "accessory": {
                     "type": "button",
@@ -46,7 +46,7 @@ jobs:
                       "text": "Go to App",
                       "emoji": true
                     },
-                    "url": "${{ jobs.env.name == 'prod' && 'https://www.google.com' || 'https://www.bing.com' }}"
+                    "url": "${{ jobs.release.env.name == 'prod' && 'https://www.google.com' || 'https://www.bing.com' }}"
                   }
                 }
               ]
